@@ -12,7 +12,10 @@ Los scripts de creación de la bd se encuentra en la carpeta "resources/sql/0.1.
 
 Nombre bd: `viaandina_scheduler_db`
 
-### Tablas
+## Tablas
 - `route`: Guarda información sobre rutas 
 - `stops`: Guarda la información de paradas de cada ruta.
 - `schedules`: Guarda la información de programación de las rutas.
+
+# Crear contenedor
+`docker build -t yurigrow/viand-scheduler-msvc:latest .`
