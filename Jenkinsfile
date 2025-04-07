@@ -68,6 +68,9 @@ pipeline {
     }
 
     post {
+        success {
+            echo "El pipeline se ejecutó exitosamente."
+        }
         failure {
             echo "El pipeline falló. Revisa los logs para más detalles."
         }
