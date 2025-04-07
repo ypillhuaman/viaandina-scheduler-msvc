@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     parameters {
-        credentials(name: 'DOCKER_CREDENTIALS', description: 'Docker Hub credentials', defaultValue: '', required: true)
-        string(name: 'SONAR_URL', description: 'Sonar URL', defaultValue: 'http://sonarqube:9000', required: true)
-        string(name: 'SONAR_TOKEN', description: 'Sonar token', defaultValue: '', required: true)
-        string(name: 'ENVIRONMENT', description: 'Environment', defaultValue: 'dev', required: true)
+        credentials(name: 'DOCKER_CREDENTIALS', description: 'Docker Hub credentials')
+        string(name: 'SONAR_URL', description: 'Sonar URL', defaultValue: 'http://sonarqube:9000')
+        string(name: 'SONAR_TOKEN', description: 'Sonar token')
+        string(name: 'ENVIRONMENT', description: 'Environment', defaultValue: 'dev')
     }
 
     environment {
@@ -16,6 +16,19 @@ pipeline {
     }
 
     stages {
+
+        stage('Validar Parámetros') {
+            steps {
+                script {
+                    if (!params.DOCKER_CREDENTIALS?.trim()) {
+                        error("Parámetro DOCKER_CREDENTIALS es requerido pero está vacío.")
+                    }
+                    if (!params.SONAR_TOKEN?.trim()) {
+                        error("Parámetro SONAR_TOKEN es requerido pero está vacío.")
+                    }
+                }
+            }
+        }
 
         stage('Análisis con SonarQube') {
             steps {
