@@ -27,11 +27,6 @@ public class RouteController {
         return routeService.findAll();
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("test qwerty");
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<RouteDTO> findById(@PathVariable Long id) {
         RouteDTO routeDTO = routeService.findById(id);
