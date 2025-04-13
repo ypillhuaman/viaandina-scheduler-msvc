@@ -32,7 +32,7 @@ pipeline {
 
         stage('Análisis con SonarQube') {
             steps {
-                dir('project') {
+                //dir('project') {
                     sh 'chmod +x ./mvnw'
                     sh """
                         ./mvnw clean verify sonar:sonar \
@@ -40,20 +40,20 @@ pipeline {
                         -Dsonar.login=${params.SONAR_TOKEN} \
                         -DskipTests
                     """
-                }
+                //}
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                dir('project') {
+                //dir('project') {
                     script {
                         docker.withRegistry('https://index.docker.io/v1/', "${params.DOCKER_CREDENTIALS}") {
                             def app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                             app.push()
                         }
                     }
-                }
+                //}
             }
         }
 
