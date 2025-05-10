@@ -1,5 +1,6 @@
 package com.viaandina.msvc.scheduler.app.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,8 @@ public class ScheduleService {
 
     public ScheduleDTO save(ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleMapper.toEntity(scheduleDTO);
+        schedule.setCreatedAt(LocalDateTime.now());
+        schedule.setActive(true);
         schedule = scheduleRepository.save(schedule);
         return scheduleMapper.toDto(schedule);
     }

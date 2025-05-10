@@ -1,5 +1,6 @@
 package com.viaandina.msvc.scheduler.app.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public class StopService {
 
     public StopDTO save(StopDTO stopDTO) {
         Stop stop = stopMapper.toEntity(stopDTO);
+        stop.setCreatedAt(LocalDateTime.now());
         stop = stopRepository.save(stop);
         return stopMapper.toDto(stop);
     }
