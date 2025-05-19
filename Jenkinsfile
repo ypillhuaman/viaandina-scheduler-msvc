@@ -30,6 +30,8 @@ pipeline {
             }
         }
 
+        // Durante la etapa de analisis con SonarQube se compilara la aplicacion para crear el JAR
+        // que sera usado para construir la imagen docker
         stage('Análisis con SonarQube') {
             steps {
                 sh 'chmod +x ./mvnw'
