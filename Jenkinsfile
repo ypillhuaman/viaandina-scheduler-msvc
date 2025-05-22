@@ -12,7 +12,7 @@ pipeline {
         SERVICE_NAME = 'viand-scheduler-msvc'
         IMAGE_NAME = 'yurigrow/viand-scheduler-msvc'
         IMAGE_TAG = 'latest'
-        DOCKER_COMPOSE_PATH = '/mnt/docker-compose'
+        DOCKER_COMPOSE_PATH = '/mnt/msvc'
     }
 
     stages {
