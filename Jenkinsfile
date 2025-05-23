@@ -9,7 +9,7 @@ pipeline {
     }
 
     environment {
-        SERVICE_NAME = 'viand-scheduler-msvc'
+        SERVICE_NAME = 'scheduler-msvc'
         IMAGE_NAME = 'yurigrow/viand-scheduler-msvc'
         IMAGE_TAG = 'latest'
         DOCKER_COMPOSE_PATH = '/mnt/msvc'
