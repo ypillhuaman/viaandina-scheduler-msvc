@@ -11,7 +11,7 @@ pipeline {
     environment {
         SERVICE_NAME = 'scheduler-msvc'
         IMAGE_NAME = 'yurigrow/viand-scheduler-msvc'
-        IMAGE_TAG = 'latest'
+        IMAGE_TAG = "0.0.${env.BUILD_NUMBER}"
         DOCKER_COMPOSE_PATH = '/mnt/msvc'
     }
 
@@ -35,12 +35,12 @@ pipeline {
         stage('Análisis con SonarQube') {
             steps {
                 sh 'chmod +x ./mvnw'
-                sh """
+                sh '''
                     ./mvnw clean verify sonar:sonar \
                     -Dsonar.host.url=${params.SONAR_URL} \
                     -Dsonar.login=${params.SONAR_TOKEN} \
                     -DskipTests
-                """
+                '''
             }
         }
 
@@ -50,6 +50,8 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', "${params.DOCKER_CREDENTIALS}") {
                         def app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                         app.push()
+                        // Actualizamos la etiqueta 'latest' para que apunte a esta versión
+                        app.push('latest')
                     }
                 }
             }
@@ -58,8 +60,11 @@ pipeline {
         stage('Actualizar Docker Compose') {
             steps {
                 script {
-                    sh "cd ${DOCKER_COMPOSE_PATH} && APP_ENV=${params.ENVIRONMENT} docker compose pull ${SERVICE_NAME}"
-                    sh "cd ${DOCKER_COMPOSE_PATH} && APP_ENV=${params.ENVIRONMENT} docker compose up -d ${SERVICE_NAME}"
+                    sh '''
+                        cd ${DOCKER_COMPOSE_PATH}
+                        APP_ENV=${params.ENVIRONMENT} docker compose pull ${SERVICE_NAME}
+                        APP_ENV=${params.ENVIRONMENT} docker compose up -d ${SERVICE_NAME}
+                    '''
                 }
             }
         }
