@@ -35,12 +35,12 @@ pipeline {
         stage('Análisis con SonarQube') {
             steps {
                 sh 'chmod +x ./mvnw'
-                sh '''
+                sh """
                     ./mvnw clean verify sonar:sonar \
                     -Dsonar.host.url=${params.SONAR_URL} \
                     -Dsonar.login=${params.SONAR_TOKEN} \
                     -DskipTests
-                '''
+                """
             }
         }
 
@@ -60,11 +60,11 @@ pipeline {
         stage('Actualizar Docker Compose') {
             steps {
                 script {
-                    sh '''
+                    sh """
                         cd ${DOCKER_COMPOSE_PATH}
                         APP_ENV=${params.ENVIRONMENT} docker compose pull ${SERVICE_NAME}
                         APP_ENV=${params.ENVIRONMENT} docker compose up -d ${SERVICE_NAME}
-                    '''
+                    """
                 }
             }
         }
